@@ -9,18 +9,18 @@ class Room1 extends Phaser.Scene {
   }
 
   preload() {
-    // Fondo opcional
-    this.load.image('room', '/assets/room.jpg')
+    // Fondo
+    this.load.image('room', '/assets/room.png')
 
-    // Spritesheets (11 columnas x 2 filas)
-    this.load.spritesheet('heroIdle', '/assets/personaje/hero_idle.png', {
-      frameWidth: 200,
-      frameHeight: 306
+    // Spritesheets (8 columnas x 1 fila)
+    this.load.spritesheet('heroIdle', '/assets/personaje/respirar.png', {
+      frameWidth: 218,
+      frameHeight: 400
     })
 
-    this.load.spritesheet('heroWalk', '/assets/personaje/hero_walk.png', {
-      frameWidth: 200,
-      frameHeight: 306
+    this.load.spritesheet('heroWalk', '/assets/personaje/andar.png', {
+      frameWidth: 218,
+      frameHeight: 400
     })
   }
 
@@ -29,14 +29,14 @@ class Room1 extends Phaser.Scene {
     this.add.image(0, 0, 'room').setOrigin(0)
 
     // =========================
-    // ANIMACIONES (fila de arriba)
+    // ANIMACIONES
     // =========================
 
     this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNumbers('heroIdle', {
         start: 0,
-        end: 10
+        end: 7   // 8 frames → 0 a 7
       }),
       frameRate: 8,
       repeat: -1
@@ -46,7 +46,7 @@ class Room1 extends Phaser.Scene {
       key: 'walk',
       frames: this.anims.generateFrameNumbers('heroWalk', {
         start: 0,
-        end: 10
+        end: 7
       }),
       frameRate: 14,
       repeat: -1
@@ -57,7 +57,7 @@ class Room1 extends Phaser.Scene {
     // =========================
 
     this.player = this.add.sprite(200, 560, 'heroIdle', 0)
-    this.player.setOrigin(0.5, 1) // pies abajo
+    this.player.setOrigin(0.5, 1)
     this.player.setScale(0.6)
     this.player.play('idle')
 
@@ -76,14 +76,15 @@ class Room1 extends Phaser.Scene {
 
     if (this.cursors.left.isDown) {
       this.player.x -= speed
-      this.player.setFlipX(true)
+      this.player.setFlipX(false)
       moving = true
     } else if (this.cursors.right.isDown) {
       this.player.x += speed
-      this.player.setFlipX(false)
+      this.player.setFlipX(true)
       moving = true
     }
 
+    // Si quieres mantener movimiento vertical, lo dejas
     if (this.cursors.up.isDown) {
       this.player.y -= speed
       moving = true
@@ -92,7 +93,7 @@ class Room1 extends Phaser.Scene {
       moving = true
     }
 
-    // Cambiar animación según movimiento
+    // Cambiar animación
     if (moving) {
       if (this.player.anims.currentAnim?.key !== 'walk') {
         this.player.play('walk', true)
@@ -111,7 +112,7 @@ class Room1 extends Phaser.Scene {
   }
 
   // =========================
-  // RESPIRAR (micro movimiento)
+  // RESPIRAR
   // =========================
 
   startBreathe() {
