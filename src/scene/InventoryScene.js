@@ -4,7 +4,7 @@ export default class InventoryScene extends Phaser.Scene {
     constructor() {
         super({ key: 'InventoryScene' });
         this.objetosEnInventario = [];
-    }
+    } 
 
     preload() {
         this.load.image('inv_icono', 'assets/seleccion_icono.png');
